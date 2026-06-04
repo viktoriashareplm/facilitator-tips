@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop Facilitation — Digital Transformation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface-alt: #F0EDE6;
+    --ink: #1A1814;
+    --ink-2: #4A4740;
+    --ink-3: #8A8680;
+    --accent: #1E3A5F;
+    --accent-light: #E8EFF7;
+    --gold: #C4922A;
+    --gold-light: #FBF4E6;
+    --coral: #C45832;
+    --coral-light: #FAF0EB;
+    --teal: #1B6B5A;
+    --teal-light: #E6F3EF;
+    --rule: #D8D4CC;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'Outfit', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  .page-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding: 3rem 0 2rem;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem;
+  }
+
+  .masthead-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.75rem;
+  }
+
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .masthead h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .masthead-meta {
+    text-align: right;
+    color: var(--ink-3);
+    font-size: 13px;
+    line-height: 1.8;
+    font-family: var(--mono);
+  }
+
+  /* ── INTRO STRIP ── */
+  .intro-strip {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .intro-strip .big-num {
+    font-family: var(--serif);
+    font-size: 4rem;
+    line-height: 1;
+    opacity: 0.25;
+  }
+
+  .intro-strip p {
+    font-size: 15px;
+    line-height: 1.7;
+    opacity: 0.92;
+    font-weight: 300;
+  }
+
+  .intro-strip strong { font-weight: 500; opacity: 1; }
+
+  /* ── TAB NAV ── */
+  .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tab-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink-3);
+    cursor: pointer;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tab-btn:hover {
+    border-color: #BBB7AF;
+    color: var(--ink-2);
+  }
+
+  .tab-btn .tab-num {
+    font-size: 10px;
+    opacity: 0.6;
+  }
+
+  .tab-btn.active-before { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active-during { background: var(--gold-light); border-color: var(--gold); color: var(--gold); }
+  .tab-btn.active-digital { background: var(--coral-light); border-color: var(--coral); color: var(--coral); }
+  .tab-btn.active-closing { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+  .tab-btn.active-after  { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+  .tab-btn.active-ref    { background: var(--gold-light); border-color: var(--gold); color: var(--gold); }
+
+  /* ── PHASE HEADERS ── */
+  .phase {
+    margin-bottom: 2.5rem;
+    display: none;
+  }
+
+  .phase.active {
+    display: block;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .phase-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-before { background: var(--accent-light); color: var(--accent); }
+  .badge-during { background: var(--gold-light); color: var(--gold); }
+  .badge-after  { background: var(--teal-light); color: var(--teal); }
+  .badge-digital { background: var(--coral-light); color: var(--coral); }
+
+  .phase-title {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  /* ── TIP GRID ── */
+  .tip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .tip-card:hover {
+    border-color: #BBB7AF;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  }
+
+  .tip-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+  }
+
+  .tip-card h3 {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .tip-card p {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  .tip-card .accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+  }
+
+  .bar-accent { background: var(--accent); }
+  .bar-gold   { background: var(--gold); }
+  .bar-teal   { background: var(--teal); }
+  .bar-coral  { background: var(--coral); }
+
+  /* ── CALLOUT BLOCK ── */
+  .callout {
+    border-left: 3px solid var(--gold);
+    background: var(--gold-light);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .callout p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  /* ── TOOLS TABLE ── */
+  .tools-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .tools-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .tools-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 0.5rem 1rem 0.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tools-table td {
+    padding: 0.75rem 1rem 0.75rem 0;
+    vertical-align: top;
+    border-bottom: 1px solid var(--surface-alt);
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .tools-table td:first-child {
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+    width: 28%;
+  }
+
+  .tools-table tr:hover td { background: var(--surface-alt); }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--accent-light);
+    color: var(--accent);
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 14px;
+    color: var(--ink-2);
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+  }
+
+  .checklist li::before {
+    content: '○';
+    color: var(--ink-3);
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 1px;
+  }
+
+  /* ── QUOTE BLOCK ── */
+  .pull-quote {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin: 2.5rem 0;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    color: var(--ink);
+    line-height: 1.4;
+    max-width: 600px;
+    margin: 0 auto 1rem;
+  }
+
+  .pull-quote cite {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-style: normal;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 2rem;
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  .footer-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 600px) {
+    .masthead { grid-template-columns: 1fr; }
+    .masthead-meta { text-align: left; }
+    .intro-strip { grid-template-columns: 1fr; }
+    .intro-strip .big-num { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header class="masthead">
+    <div>
+      <p class="masthead-label">Field Reference Guide</p>
+      <h1>Facilitating Workshops<br>for <em>Digital Transformation</em></h1>
+    </div>
+    <div class="masthead-meta">
+      For Consultants<br>
+      v1.0 · 2025<br>
+      ──────────<br>
+      5 phases · 30+ tips
+    </div>
+  </header>
+
+  <div class="intro-strip">
+    <div class="big-num">!</div>
+    <p>Digital transformation workshops are <strong>not product demos</strong>. They're environments for surfacing resistance, aligning mental models, and building shared momentum. Your job as facilitator is to make invisible assumptions visible — and turn disagreement into design decisions.</p>
+  </div>
+
+  <!-- ─── TAB NAV ─── -->
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active-before" data-tab="before" onclick="showTab('before', this)">
+      <span class="tab-num">01</span> Before
+    </button>
+    <button class="tab-btn" data-tab="opening" onclick="showTab('opening', this)">
+      <span class="tab-num">02</span> Opening
+    </button>
+    <button class="tab-btn" data-tab="during" onclick="showTab('during', this)">
+      <span class="tab-num">03</span> During
+    </button>
+    <button class="tab-btn" data-tab="digital" onclick="showTab('digital', this)">
+      <span class="tab-num">04</span> Digital-specific
+    </button>
+    <button class="tab-btn" data-tab="closing" onclick="showTab('closing', this)">
+      <span class="tab-num">05</span> Closing
+    </button>
+    <button class="tab-btn" data-tab="after" onclick="showTab('after', this)">
+      <span class="tab-num">06</span> After
+    </button>
+    <button class="tab-btn" data-tab="ref" onclick="showTab('ref', this)">
+      <span class="tab-num">↗</span> Activities
+    </button>
+  </nav>
+
+  <!-- ─── PHASE 1: BEFORE ─── -->
+  <section class="phase active" id="tab-before">
+    <div class="phase-header">
+      <span class="phase-badge badge-before">Phase 01</span>
+      <h2 class="phase-title">Before the Workshop</h2>
+    </div>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">01</div>
+        <h3>Conduct pre-interviews</h3>
+        <p>Talk to 3–5 key stakeholders before day one. Surface hidden agendas, fears about job displacement, and unofficial power structures that will shape the room dynamic.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">02</div>
+        <h3>Map the decision-makers</h3>
+        <p>Who approves budget? Who blocks change? Create a simple 2×2 (influence vs. openness) and seat people strategically to balance perspectives at each table.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">03</div>
+        <h3>Define one measurable outcome</h3>
+        <p>Workshops that try to "align everyone on digital" fail. Pick a single deliverable: a prioritised roadmap, a defined problem statement, or a decided architecture choice.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">04</div>
+        <h3>Pre-seed the materials</h3>
+        <p>Send a 1-page brief and one provocative data point 48 hours before. Ask participants to come with one "assumption we should challenge." It activates thinking before the room fills.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">05</div>
+        <h3>Design for the sceptic</h3>
+        <p>Every group has someone who thinks transformation is buzzword theatre. Build activities that give sceptics something concrete to critique — that energy is your most useful fuel.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">06</div>
+        <h3>Time-box relentlessly</h3>
+        <p>Build your agenda in 25-minute blocks. Write the clock time, not duration. Share it publicly on the wall. People self-regulate better when they can see the whole day at a glance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PHASE 2: OPENING ─── -->
+  <section class="phase" id="tab-opening">
+    <div class="phase-header">
+      <span class="phase-badge badge-before">Phase 02</span>
+      <h2 class="phase-title">Opening the Room</h2>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Core principle</div>
+      <p>"The first 15 minutes set the psychological contract for the day. If you start with slides, you signal 'we're here to receive information.' If you start with a question, you signal 'we're here to think together.'"</p>
+    </div>
+
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">07</div>
+        <h3>Open with a provocation, not a welcome</h3>
+        <p>Show a statistic that challenges the room's current reality. "70% of digital transformations fail to meet objectives — what makes you think yours will be different?"</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">08</div>
+        <h3>Surface the elephant immediately</h3>
+        <p>Name the tension in the room before it names you. "Some of you are here because you believe in this. Some of you are here to make sure it doesn't break what's working." Nods are permission to proceed honestly.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">09</div>
+        <h3>Use a "pre-mortem" opener</h3>
+        <p>Ask: "It's two years from now. The transformation failed spectacularly. What happened?" Groups are far more candid about risk when speaking in past tense and hypothetical frames.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-accent"></div>
+        <div class="tip-num">10</div>
+        <h3>Establish working agreements</h3>
+        <p>Co-create 3–4 norms with the group in the first 10 minutes: "phones down", "challenge ideas not people", "speak your edge". Ownership increases compliance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PHASE 3: DURING ─── -->
+  <section class="phase" id="tab-during">
+    <div class="phase-header">
+      <span class="phase-badge badge-during">Phase 03</span>
+      <h2 class="phase-title">During: Facilitation Mechanics</h2>
+    </div>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">11</div>
+        <h3>Separate diverge from converge</h3>
+        <p>Never generate and evaluate in the same breath. Run a pure brainstorm (no judgment) for 8 minutes, then a hard prioritisation. Mixing modes kills both.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">12</div>
+        <h3>Use structured silence</h3>
+        <p>Before any discussion, give everyone 3 minutes to write silently. It equalises participation, gives introverts parity, and dramatically improves idea quality before socialisation pressure kicks in.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">13</div>
+        <h3>Redirect, don't rebuke</h3>
+        <p>When someone goes off-topic, say "That's important — let's capture it in the parking lot so we don't lose it." The parking lot must be real and revisited, or trust erodes fast.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">14</div>
+        <h3>Visualise agreements in real-time</h3>
+        <p>Write decisions on a visible surface as they're made. Reading words back to the group produces the "yes, that's what I said" confirmation that makes agreements stick.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">15</div>
+        <h3>Use "yes, and" to bridge factions</h3>
+        <p>When two stakeholders are in opposing camps, reflect both positions without judgement: "So we have a case for speed and a case for stability. What would we need to see to hold both?" </p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">16</div>
+        <h3>Protect minority views</h3>
+        <p>If a dissenting voice gets steamrolled, say: "Before we move on, I want to make sure we've actually heard the concern." The dissenter often sees risks the majority is motivated to ignore.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">17</div>
+        <h3>Read energy, not the agenda</h3>
+        <p>If the room is in productive conflict at 11am, extend that session. You can always cut a synthesis exercise. You cannot manufacture genuine engagement once it's gone.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-gold"></div>
+        <div class="tip-num">18</div>
+        <h3>Avoid leading questions</h3>
+        <p>"Don't you think cloud migration is the right first step?" is a statement wearing a question costume. Genuine facilitation asks: "What should the first step be, and why?"</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DIGITAL-SPECIFIC ─── -->
+  <section class="phase" id="tab-digital">
+    <div class="phase-header">
+      <span class="phase-badge badge-digital">Digital-Specific</span>
+      <h2 class="phase-title">Transformation-Specific Techniques</h2>
+    </div>
+
+    <div class="pull-quote">
+      <blockquote>"Transformation fails at culture, not at technology. Your workshop is where culture becomes visible."</blockquote>
+      <cite>Facilitation maxim</cite>
+    </div>
+
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="accent-bar bar-coral"></div>
+        <div class="tip-num">19</div>
+        <h3>Use "as-is / to-be" journeys, not visions</h3>
+        <p>Vague future-state slides create false consensus. Journey maps that name specific pain points (with real quotes from employees) create ownership and shared urgency.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-coral"></div>
+        <div class="tip-num">20</div>
+        <h3>Separate technology from capability</h3>
+        <p>When the CTO says "we need an AI platform," slow down. Ask: "What decision or task are we trying to make faster or better?" Tools follow capability needs — not the other way around.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-coral"></div>
+        <div class="tip-num">21</div>
+        <h3>Run a "who loses?" exercise</h3>
+        <p>For every proposed change, ask explicitly: who loses status, control, or headcount? Making this visible in a safe space is far preferable to discovering it as passive resistance six months in.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-coral"></div>
+        <div class="tip-num">22</div>
+        <h3>Anchor to customer impact</h3>
+        <p>When debates get political, bring them back: "What does this mean for the customer in six months?" It's the one question that cuts through internal positioning almost every time.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-coral"></div>
+        <div class="tip-num">23</div>
+        <h3>Prioritise using effort/impact, not gut</h3>
+        <p>Use a visible 2×2 matrix. Have each group independently dot-vote on where initiatives land, then discuss outliers. Public voting before discussion prevents anchoring to the loudest voice.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-coral"></div>
+        <div class="tip-num">24</div>
+        <h3>Name the legacy system tension</h3>
+        <p>There is always someone defending a core system that "can't be touched." Rather than dismissing it, ask: "What would need to be true for us to feel safe migrating this?" That's a design conversation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TOOLS TABLE ─── -->
+  <section class="phase tools-section" id="tab-ref">
+    <div class="phase-header">
+      <span class="phase-badge badge-during">Reference</span>
+      <h2 class="phase-title">Go-To Activities by Objective</h2>
+    </div>
+    <table class="tools-table">
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th>Best used when…</th>
+          <th>Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pre-mortem</td>
+          <td>You need honest risk identification without blame culture shutting people down</td>
+          <td><span class="tag">Silent write</span> <span class="tag">Small groups</span></td>
+        </tr>
+        <tr>
+          <td>How Might We</td>
+          <td>Moving from problem definition to solution space without premature closure</td>
+          <td><span class="tag">Post-its</span> <span class="tag">Plenary share</span></td>
+        </tr>
+        <tr>
+          <td>Impact / Effort matrix</td>
+          <td>A long list of initiatives needs to be cut to a focused set of bets</td>
+          <td><span class="tag">Dot voting</span> <span class="tag">Facilitated</span></td>
+        </tr>
+        <tr>
+          <td>Journey mapping</td>
+          <td>Stakeholders lack shared understanding of the current customer or employee experience</td>
+          <td><span class="tag">Visual</span> <span class="tag">Table work</span></td>
+        </tr>
+        <tr>
+          <td>RACI alignment</td>
+          <td>Ownership for transformation workstreams is contested or unclear</td>
+          <td><span class="tag">Live editing</span> <span class="tag">Full group</span></td>
+        </tr>
+        <tr>
+          <td>Assumption mapping</td>
+          <td>A strategy rests on unverified beliefs about customers, technology, or market</td>
+          <td><span class="tag">Cards</span> <span class="tag">Confidence axis</span></td>
+        </tr>
+        <tr>
+          <td>Futures cone</td>
+          <td>Group is fixated on one future scenario; you need to open strategic optionality</td>
+          <td><span class="tag">Provocation</span> <span class="tag">Plenary</span></td>
+        </tr>
+        <tr>
+          <td>1-2-4-all</td>
+          <td>You want equitable input from a large, diverse group before converging</td>
+          <td><span class="tag">Liberating structure</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── PHASE 4: CLOSING ─── -->
+  <section class="phase" id="tab-closing">
+    <div class="phase-header">
+      <span class="phase-badge badge-teal" style="background: #E6F3EF; color: #1B6B5A;">Phase 04</span>
+      <h2 class="phase-title">Closing and Commitment</h2>
+    </div>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="accent-bar bar-teal"></div>
+        <div class="tip-num">25</div>
+        <h3>Close with a "commitment card"</h3>
+        <p>Each participant writes one specific action they will take in the next 7 days, signs it, and hands it to a peer. Physical commitment artefacts outperform verbal pledges 3:1 in follow-through.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-teal"></div>
+        <div class="tip-num">26</div>
+        <h3>Distinguish decisions from discussions</h3>
+        <p>Read back exactly what was decided versus what was discussed-but-not-resolved. Participants often leave with different mental models of what was agreed — explicit articulation prevents costly misalignment.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-teal"></div>
+        <div class="tip-num">27</div>
+        <h3>Name the next meeting in the room</h3>
+        <p>Don't end with "we'll follow up." Open a calendar in the room, agree on the date, and assign a named owner for each open item before people leave. Exit energy is your highest-leverage moment.</p>
+      </div>
+      <div class="tip-card">
+        <div class="accent-bar bar-teal"></div>
+        <div class="tip-num">28</div>
+        <h3>Run a "plus / delta" close</h3>
+        <p>Ask: "What worked well today?" and "What would you change?" Capture it publicly. It closes the loop with the group, models continuous improvement, and gives you genuine feedback data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PHASE 5: AFTER ─── -->
+  <section class="phase" id="tab-after">
+    <div class="phase-header">
+      <span class="phase-badge badge-after">Phase 05</span>
+      <h2 class="phase-title">After the Workshop</h2>
+    </div>
+
+    <p style="font-size: 14px; color: var(--ink-2); margin-bottom: 1.5rem; max-width: 680px;">A workshop with no follow-through is theatre. Momentum built in the room decays within 72 hours if not anchored in structures and artefacts.</p>
+
+    <ul class="checklist">
+      <li>Send a single-page "decisions &amp; owners" summary within 24 hours</li>
+      <li>Include a verbatim "what we agreed / what remains open" section</li>
+      <li>Photograph and attach all physical artefacts (post-it clusters, journey maps)</li>
+      <li>Schedule a 30-day check-in on commitment cards at time of sending summary</li>
+      <li>Identify the one person most at risk of disengaging and contact them first</li>
+      <li>Log which assumptions remain untested — these become the next design sprint</li>
+      <li>Measure progress against the single defined outcome within 30 days</li>
+      <li>Debrief your facilitation: what would you do differently next time?</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Workshop Facilitation Guide · Digital Transformation Consulting</p>
+    <div class="footer-tags">
+      <span class="tag">facilitation</span>
+      <span class="tag">digital transformation</span>
+      <span class="tag">consulting</span>
+    </div>
+  </footer>
+
+</div>
+<script>
+  const activeClasses = {
+    before: 'active-before', opening: 'active-before',
+    during: 'active-during', digital: 'active-digital',
+    closing: 'active-after', after: 'active-after', ref: 'active-ref'
+  };
+
+  function showTab(id, btn) {
+    document.querySelectorAll('.phase').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active-before','active-during','active-digital','active-after','active-ref');
+    });
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add(activeClasses[id]);
+  }
+</script>
+</body>
+</html>
